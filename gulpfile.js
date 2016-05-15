@@ -13,7 +13,7 @@ gulp.task('default', ['serve'], function () {
 });
 // gulp build
 gulp.task('serve', ['clean'], function () {
-    runSequence('copy:libs','ts-compile', 'js-copy', 'inject', 'html-copy', 'css-copy', 'ts-watch', 'browser-sync')
+    runSequence('copy:libs','ts-compile', 'js-copy', 'inject', 'html-copy', 'css-copy', 'copy:favicon', 'ts-watch', 'browser-sync')
 });
 // delete dist folder
 gulp.task('clean', function (cb) {
@@ -67,7 +67,10 @@ gulp.task('css-copy', function () {
         .pipe(watch('src/**/*.css'))
         .pipe(gulp.dest('dist'));
 });
-
+gulp.task('copy:favicon', function () {
+    gulp.src('src/favicon.ico')
+        .pipe(gulp.dest('dist'));
+});
 // Static server
 gulp.task('browser-sync', function() {
     browserSync.init({

@@ -1,7 +1,17 @@
 declare module RandomUser {
-    interface Id {
-        name:string;
-        value:string;
+    interface User {
+        cell:string;
+        dob: number;
+        email:string;
+        gender:string;
+        id: number,
+        location: Location,
+        login: Login,
+        name: Name,
+        nat:string;
+        phone:string;
+        picture: Picture,
+        registered:number;
     }
     interface Location {
         city:string;
@@ -26,19 +36,5 @@ declare module RandomUser {
         large:string;
         medium:string;
         thumbnail:string;
-    }
-    interface User {
-        cell:string;
-        dob: number;
-        email:string;
-        gender:string;
-        id: number,
-        location: Location,
-        login: Login,
-        name: Name,
-        nat:string;
-        phone:string;
-        picture: Picture,
-        registered:number;
     }
 }

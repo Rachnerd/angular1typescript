@@ -4,6 +4,7 @@
     <base href="/">
     <meta charset="UTF-8">
     <title>Angular 1 TypeScript</title>
+    <link rel="shortcut icon" type="image/png" href="favicon.ico"/>
     <!-- inject:css -->
     <!-- endinject -->
 
@@ -12,9 +13,62 @@
     <script src="/libs/angular_1_router.js"></script>
     <script src="/libs/system.js"></script>
     <!-- endinject -->
-    <script src="boot-application.js"></script>
 </head>
 <body>
+<script>
+    /**
+     * Fixes the import statements on run time by adding a js extension.
+     * Development TypeScript | Runtime JavaScript
+     */
+    System.config({
+        defaultJSExtensions: true
+    });
+    /**
+     * Systemjs imports the app which contains the Angular module instance.
+     */
+    System.import('./app')
+            /**
+             * System.import returns a promise because the importing is done asynchronous.
+             * Some legacy es5 scripts depend on the module in app.ts and should be loaded after the Angular module is instantiated.
+             */
+            .then(function() {
+                /**
+                 *  Appends a script element to the DOM with an onload handler.
+                 */
+                function importScript(src, onload) {
+                    var script = document.createElement('script');
+                    script.onload = onload;
+                    script.src = src;
+                    document.head.appendChild(script);
+                }
 
+                /**
+                 * Amount of scripts that are loaded.
+                 */
+                var loadedScripts = 0;
+                /**
+                 *  When all scripts are loaded, boot the angular module.
+                 */
+                function onload () {
+                    if(++loadedScripts == scripts.length) {
+                        document.body.appendChild(document.createElement('app'));
+                        angular.bootstrap(document.body, ['myApp']);
+                    }
+                }
+
+                /**
+                 * Array of legacy scripts
+                 */
+                var scripts = [
+                    'legacy/random-user.service.js'
+                ];
+                /**
+                 * Import all legacy code.
+                 */
+                for(var i = 0; i < scripts.length; i++) {
+                    importScript(scripts[i], onload);
+                }
+            });
+</script>
 </body>
 </html>
