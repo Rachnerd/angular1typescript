@@ -1,0 +1,26 @@
+{
+  "name": "angular1typescript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rachnerd",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.12.7",
+    "gulp": "^3.9.1",
+    "gulp-inject": "^4.0.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-typescript": "^2.12.1",
+    "gulp-watch": "^4.3.5",
+    "rimraf": "^2.5.2",
+    "run-sequence": "^1.1.5"
+  },
+  "dependencies": {
+    "@angular/router": "^0.2.0",
+    "angular": "^1.5.5",
+    "systemjs": "^0.19.27"
+  }
+}

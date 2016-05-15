@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "system",
+    "target": "ES5"
+  }
+}
+//"filesGlob": [
+//"./typings/**/*.ts",
+//"./src/**/*.ts"
+//]
