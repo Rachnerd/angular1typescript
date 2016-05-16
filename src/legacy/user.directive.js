@@ -1,4 +1,4 @@
-angular.module('myApp').directive('person', function () {
+angular.module('myApp').directive('user', function () {
     return {
         restrict: 'E',
         templateUrl: './legacy/person.directive.html',

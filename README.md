@@ -101,7 +101,7 @@ Take a look in index.html to the systemjs implementation.
 ```
 This code makes sure that the angular module is imported before the legacy scripts are loaded.
 It imports the app file first and then appends script tags that reference legacy scripts to the document.
-After everything is loaded it add's ng-app to the body of the document and an app element to the DOM (which is defined in app.ts)
+After everything is loaded it adds ng-app to the body of the document and an app element to the DOM (which is defined in app.ts)
 
 ## Assignment 2 Routing
 #### PeopleComponent
@@ -114,7 +114,7 @@ It can be accessed either by using it in a template like <people></people>
 or by setting up a route.
 
 ```javascript
-//path object
+//path object example
 {
     path: 'url', component: 'componentName', as: 'ComponentName'
 }
@@ -131,7 +131,7 @@ defined.
 ```html
 <ng-outlet></ng-outlet>
 
-<a ng-link="['ComponentName']">ComponentName</a>
+<a ng-link="['ComponentName']">ComponentName</a> <!-- !example values! -->
 ```
 ```
 Append the template of app.ts with the router outlet.
@@ -146,10 +146,14 @@ This way not all routes will end up in app.ts but will be distributed where rele
 
 ```
 Create a OverviewComponent in /people/overview and add it to the angular module in app.ts.
+
 Implement $routeConfig in PeopleComponent with a route to overview.
+
 Go to app.ts and tell the router PeopleComponent contains a routeconfig by adding 3 dots
 to the route: '/people/...'.
+
 Add ng-outlet to the PeopleComponent's template.
+
 Create a link above the ng-outlet to overview.
 ```
 
@@ -326,24 +330,4 @@ users from the RandomPersonService.
 ```
 
 
-static $inject
-constructor di
-
-Angular 1 types ng.
-
-Legacy code d.ts
-Component
-onActivate
-this.$routerOnActivate = function(next, previous) {
-  // Get the hero identified by the route parameter
-  var id = next.params.id;
-  return heroService.getHero(id).then(function(hero) {
-    $ctrl.hero = hero;
-  });
-};
-onInit
-canActivate
-Retrieve injector Angular 2 style. 
 Navigating in js with $router.
-$ctrl controllerAs default
-vm
