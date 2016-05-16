@@ -182,7 +182,7 @@ Extend the static $inject array with a string: 'RandomPersonService'.
 The static $inject array tells the Angular code which dependencies to inject.
 
 ```
-Generate 10 people with the RanomUserService and set the response to 
+Generate 10 people with the RandomUserService and set the response to 
 an people array of type Person.
 
 Visualize the 10 people using ng-repeat in overview's template.
@@ -199,9 +199,131 @@ In the legacy code there's a directive for a person, implement it like follows:
 
 By default Angular assigns the name $ctrl to components. This was decided as best practice.
 
-## Assignment 4 Router lifecycle hooks.
+## Assignment 4 Component lifecycle hooks.
+Angular 1.5.5 provides Angular 2 lifecycle hooks to components.
+
+#### $onInit
+This hook serves as a new constructor for component controllers.
+In stead of putting component initialization code in the controller's
+constructor it should be put in $onInit.
+
+_"Okay great. But uhm… what’s the big deal? Well, while the resulting output 
+will be the same, we now have the nice side effect that this component doesn’t 
+do any initialization work when its constructor is called. Imagine we’d need to
+ do some http requests during initialization of this component or controller. 
+ We’d need to take care of mocking these requests whenever we construct such a 
+ component. Now we have a better place for these kind of things." - [Pascal Precht](http://blog.thoughtram.io/angularjs/2016/03/29/exploring-angular-1.5-lifecycle-hooks.html#oninit)_
 
 
+```
+Move OverviewComponent's initialization code to the $onInit hook.
+From now on use $onInit if you need to initialize a component.
+```
+
+#### $onChanges
+This life hook is called every time an one-way bind '<' has changed reference.
+Primitive types are always reassigned when changed and will trigger this hook, objects and arrays
+might not. Manipulating the content of an object or array won't trigger this hook because
+the changed object/array still references the same object/array.
+```
+Implement $onChanges in the person component and log the changed parameter.
+```
+You should see an object that contains all bindings as indexes. On each index is
+a currentValue and previousValue.
+
+#### $onDestroy
+The most obvious of them all is onDestroy. Hook that gets called when the component
+gets destroyed. When changing routes this hook can do some cleaning up work in components.
+```
+Implement $onDestroy so it logs something.
+Change route and see the magic happen.
+```
+
+#### $postLink
+The last hook is called after this components element and its children elements are 
+linked. This is the best spot to do DOM manipulation.
+```
+Inject $element into the Person controller.
+Implement $postLink and log the html element of person.
+```
+
+## Assignment 5 Component router lifecycle hooks.
+```
+Setup a detail component in /people/detail/.
+Add it to the Angular module in app.ts.
+Add a route to PeopleComponent with path 'detail/:id'
+```
+#### $routerOnActivate
+```javascript
+$routerOnActivate(next: ng.ComponentInstruction) {
+ 
+}
+```
+When a component gets activated this hook is called with a next route object. 
+This object also contains the potential route parameters.
+```
+Implement $routerOnActivate in the detail component and retrieve the 
+id routeparameter from the next component instruction.
+
+TypeScript might complain about next.params.something but doesn't 
+about next.params['something'].
+```
+
+#### $routerCanDeactivate
+Each component can refuse to deactivate and prevent the next route from succeeding.
+This method expects a boolean or promise.
+
+```
+Implement this hook and test its effect on the routing.
+```
+
+#### $canActivate
+This is a tough one.. It's obvious what it does, but it needs special treatment.
+$canActivate is declared in the component config and not inside a controller class.
+The component config is an object that doesn't provide the injector, which means
+that we can't inject anything into this hook.... or can we?
+
+This solution is inspired by the Angular 2 solution to the same issue.
+
+```
+Add $canActivate to the config of the overview component.
+Create a TypeScript file called injector.
+```
+The injector file will contain the current instance of the injector of the application.
+```
+Copy the following code into the injector file.
+```
+```javascript
+abstract class InjectorClass {
+    static getInstance():IInjectorService {
+        return angular.element(document.body).injector();
+    }
+}
+export let Injector = InjectorClass;
+```
+
+This file provides an Injector variable that returns the current injector.
+It retrieves the element ng-app is attached to and returns its injector.
+
+```
+Back in the overviewcomponent's controller $canActivate create a 
+let injector and fill it with Injector.getInstance().
+```
+Now we can inject parts of the application in the $canActivate hook.
+
+```
+Retrieve the RandomPersonService by calling the get function of the injector.
+Implement $canActivate so it returns the RandomPersonService.generate(10)
+method.
+```
+Now the component gets activated after the people are generated. 
+```
+Handle the success of the generate promise by setting the 
+RandomPersonService.users to the response.
+
+Now when the component gets activated it only has to retrieve the preloaded
+users from the RandomPersonService.
+```
 
 
 static $inject
