@@ -173,7 +173,7 @@ Implement the correct types for RandomPersonService.
 First one is free.
 ```
 #### Importing legacy code.
-Now that the RandomUserService is types we can implement it like any other TypeScript
+Now that the RandomUserService is typed we can implement it like any other TypeScript
 interface.
 ```
 In OverviewComponent inject RandomPersonService in the constructor and assign its type.
