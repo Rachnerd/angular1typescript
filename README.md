@@ -33,7 +33,7 @@ Differences between legacy and new:
 Legacy          Angular 1.5.5
 
 ES5             TypeScript + ES6
-$scope          controllerAs: $ctrl; var vm = this;
+$scope          controllerAs: $ctrl;
 controllers     components
 function        classes and arrow functions () => {}
 var             let
@@ -329,5 +329,10 @@ Now when the component gets activated it only has to retrieve the preloaded
 users from the RandomPersonService.
 ```
 
-
+## TODO
+```
+Create person component.
+Apply multi transclusion.
+Hooks
 Navigating in js with $router.
+```

@@ -3,7 +3,6 @@
 
 import {PeopleConfig} from "./components/people/people";
 import {HomeConfig} from "./components/home/home.component";
-
 let AppConfig: ng.IComponentOptions = {
     templateUrl: 'app.html',
     $routeConfig: [
