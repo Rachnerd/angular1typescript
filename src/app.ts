@@ -1,13 +1,21 @@
 /// <reference path="../typings/angularjs/angular-component-router.d.ts" />
 /// <reference path="../typings/legacy/legacy.d.ts" />
 
-
+import {PeopleConfig} from "./components/people/people";
+import {HomeConfig} from "./components/home/home.component";
 
 let AppConfig: ng.IComponentOptions = {
-    template: `<h4>Welcome to the new Angular 1</h4>`
+    templateUrl: 'app.html',
+    $routeConfig: [
+        {
+            path: '/people', component: 'people', as: 'People'
+        }
+    ]
 };
 
 angular.module('myApp', ['ngComponentRouter'])
     .value('$routerRootComponent', 'app')
-    .component('app', AppConfig);
+    .component('app', AppConfig)
+    .component('home', HomeConfig)
+    .component('people', PeopleConfig);
 

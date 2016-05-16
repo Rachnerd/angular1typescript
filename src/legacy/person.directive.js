@@ -1,10 +1,11 @@
-angular.module('myApp').directive('user', function () {
+angular.module('myApp').directive('person', function () {
     return {
         restrict: 'E',
-        templateUrl: './legacy/user.directive.html',
+        templateUrl: './legacy/person.directive.html',
         scope: {
-            user: '='
+            person: '='
         },
+        transclude: true,
         controller: function () {}
     }
 }).filter('capitalize', function() {

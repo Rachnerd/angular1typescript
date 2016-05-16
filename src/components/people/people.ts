@@ -3,7 +3,7 @@ class PeopleCtrl {
     constructor() {}
 }
 
-export var PeopleConfig: ng.IComponentOptions = {
-    template: `<h4>People</h4>`,
+export let PeopleConfig: ng.IComponentOptions = {
+    template: `<h4>People Component</h4>`,
     controller: PeopleCtrl
 };

@@ -1,4 +1,4 @@
-angular.module('myApp').service('RandomUserService', ['$http', function ($http) {
+angular.module('myApp').service('RandomPersonService', ['$http', function ($http) {
     this.users = JSON.parse(sessionStorage.getItem('users')) || [];
     var self = this;
     this.generate = function (amount) {
@@ -15,7 +15,7 @@ angular.module('myApp').service('RandomUserService', ['$http', function ($http) 
         return $http.get('https://randomuser.me/api/')
             .then(function (res) {
                 self.users.push(res.data);
-                return res.data.results;
+                return res.data.results[0];
             });
     };
     this.delete = function (user) {

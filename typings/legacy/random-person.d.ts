@@ -1,5 +1,5 @@
-declare module RandomUser {
-    interface User {
+declare module RandomPerson {
+    interface Person {
         cell:string;
         dob: number;
         email:string;

@@ -1,12 +1,13 @@
 class HomeCtrl {
     users;
-    static $inject = ['RandomUserService'];
-    constructor(RandomUserService) {
+    static $inject = ['RandomPersonService'];
+    constructor(RandomPersonService) {
         this.users = JSON.parse(sessionStorage.getItem('users'));
         if(!!this.users) return;
-        RandomUserService.generate(10).then(users => {
+        RandomPersonService.generate(10).then(users => {
             this.users = users;
-            sessionStorage.setItem('users', JSON.stringify(this.users));
+            console.log(users);
+            //sessionStorage.setItem('users', JSON.stringify(this.users));
         })
     }
 

@@ -1,4 +1,12 @@
-/// <reference path="./random-user.d.ts" />
+/// <reference path="./random-person.d.ts" />
 declare module Legacy {
-    interface RandomUserService {}
+    import Person = RandomPerson.Person;
+    import IPromise = angular.IPromise;
+
+    interface RandomPersonService {
+        users;
+        generate(amount:number):IPromise<Array<Person>>;
+        create;
+        delete;
+    }
 }
