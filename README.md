@@ -20,7 +20,7 @@ gulp serve
 
 ## Content
 ##### Legacy code
-This code is an example of old code that is still necessary to run an application.
+This code is an example of old code that is still necessary to run the application.
 ES5 code needs some special treatment when combined with TypeScript + ES6.
 
 The legacy code used in this workshop is not intended to be migrated to Angular 1.5.5.
@@ -47,15 +47,15 @@ provided the tools to create a component structured application (like Angular 2)
 ## Assignments 1 Checking setup
 ##### App.ts
 The first thing an Angular 1 application needs is a module.
-```
+```javascript
 angular.module('myApp', ['ngComponentRouter'])
 ```
 Just like in Angular 2, the component router needs a root component (component tree root).
-```
+```javascript
 .value('$routerRootComponent', 'app')
 ```
-To create the actual referenced app components TS + ES6 come into play.
-```
+To create the actual root component app, TS + ES6 come into play.
+```javascript
 let AppConfig: ng.IComponentOptions = {
     template: `<h4>Welcome to the new Angular 1</h4>`
 };
