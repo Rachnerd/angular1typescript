@@ -24,7 +24,8 @@ gulp.task('copy:libs', function () {
     var paths = [
         'node_modules/angular/angular.js',
         'node_modules/systemjs/dist/system.js',
-        'node_modules/@angular/router/angular1/angular_1_router.js'
+        'node_modules/@angular/router/angular1/angular_1_router.js',
+        'node_modules/bootstrap/dist/css/bootstrap.min.css'
     ];
     return gulp.src(paths)
         .pipe(gulp.dest('./dist/libs'));
@@ -32,7 +33,7 @@ gulp.task('copy:libs', function () {
 
 gulp.task('inject', function () {
     return gulp.src('src/index.html')
-        .pipe(inject(gulp.src('./dist/libs/**/*.js', {read: false}), {
+        .pipe(inject(gulp.src(['./dist/libs/**/*.js', './dist/libs/**/*.css'], {read: false}), {
             ignorePath: 'dist'
         }))
         .pipe(gulp.dest('src'));

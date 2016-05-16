@@ -21,6 +21,7 @@
   "dependencies": {
     "@angular/router": "^0.2.0",
     "angular": "^1.5.5",
+    "bootstrap": "^3.3.6",
     "systemjs": "^0.19.27"
   }
 }
