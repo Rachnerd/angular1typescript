@@ -1,24 +1,24 @@
 <style>
-    .person {
+    .user {
         margin: .2em;
     }
-    .person img {
+    .user img {
         margin-right: 1em;
     }
     @media (max-width: 991px) {
-        person * {
+        .user * {
             text-align: center;
         }
     }
 </style>
-<div class="row person">
+<div class="row user">
     <div class="col-md-5">
-        <img ng-src="{{person.picture.large}}"/>
+        <img ng-src="{{user.picture.large}}"/>
     </div>
     <div class="col-md-7">
-        <h4>{{person.name.first + ' ' | capitalize}} {{ person.name.last | capitalize}}</h4>
-        <p>Username: {{person.login.personname | capitalize}}</p>
-        <p>City: {{person.location.city | capitalize}}</p>
+        <h4>{{user.name.first + ' ' | capitalize}} {{ user.name.last | capitalize}}</h4>
+        <p>Username: {{user.login.username | capitalize}}</p>
+        <p>City: {{user.location.city | capitalize}}</p>
         <ng-transclude></ng-transclude>
     </div>
 </div>

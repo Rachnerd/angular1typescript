@@ -196,12 +196,22 @@ In the legacy code there's a directive for a person, implement it like follows:
 ```html
 <div class="container">
     <div class="col-sm-4" ng-repeat="person in $ctrl.people">
-        <person person="person"></person>
+        <user user="person"></user>
     </div>
 </div>
 ```
 
 By default Angular assigns the name $ctrl to components. This was decided as best practice.
+
+#### Converting legacy code
+The user directive inside the legacy directory is loaded with outdated techniques like $scope.
+We want to create a component tree structure in our application so we'll create another component called person.
+```
+Configure the person component so it binds (on-way bind '<') a person.
+Set controllerAs: 'vm' and copy the html of the user directive to the 
+person template. Refactor all user references to vm.person.
+Refactor overview so it renders person and not user.
+```
 
 ## Assignment 4 Component lifecycle hooks.
 Angular 1.5.5 provides Angular 2 lifecycle hooks to components.
@@ -247,11 +257,60 @@ Change route and see the magic happen.
 The last hook is called after this components element and its children elements are 
 linked. This is the best spot to do DOM manipulation.
 ```
-Inject $element into the Person controller.
+Inject $element into the controller of the person component.
 Implement $postLink and log the html element of person.
 ```
 
-## Assignment 5 Component router lifecycle hooks.
+## Assignment 5 Additional component config attributes.
+#### Multi transclusion
+First thing to note is that the current typings file of Angular is a bit outdated.
+IComponentOptions only allows a boolean for transclude while the new api allows multi transclusion.
+
+Here's how we allow the typescript controller to use multi transclusion:
+```javascript
+interface MyComponentOptions extends ng.IComponentOptions {
+    transclude: any;
+}
+.component('cmpName', <MyComponentOptions> {
+    ...
+});
+```
+
+Now we can use multitransclusion.
+
+```javascript
+transclude: {
+    left: 'buttonLeft'
+},
+```
+
+```
+Bind 2 button placeholders called buttonLeft and buttonRight.
+```
+
+#### Require
+When there's a scenario where a container component needs to keep track of
+its child elements, require is the solution.
+```
+In overview add a function to the controller called: 'register(element: HTMLElement)'
+which logs the given parameter.
+In person component add require: { overviewCtrl: '^overview' }. 
+Call the overview register with $element[0] in $postLink.
+```
+
+#### $router binding
+Redirecting is made very simple with the RouterLink directive, but what if
+we want to redirect in code? The needed $router is not available in the injector.
+The Angular component router creates a root $router and passes childrouters to 
+its children. The only thing we have to do is bind it to the component.
+
+```
+In overview, add a binding $router: '<'.
+To test navigation use it in the controller of overview and navigate to home.
+(Don't try to inject it, this.$router suffices).
+```
+
+## Assignment 6 Component router lifecycle hooks.
 ```
 Setup a detail component in /people/detail/.
 Add it to the Angular module in app.ts.
@@ -259,6 +318,7 @@ Add a route to PeopleComponent with path 'detail/:id'
 ```
 #### $routerOnActivate
 ```javascript
+//inside a controller class
 $routerOnActivate(next: ng.ComponentInstruction) {
  
 }
@@ -274,14 +334,26 @@ about next.params['something'].
 ```
 
 #### $routerCanDeactivate
+```javascript
+//inside a controller class
+$routerCanDeactivate() {
+    return boolean || promise.
+}
+```
 Each component can refuse to deactivate and prevent the next route from succeeding.
 This method expects a boolean or promise.
 
 ```
-Implement this hook and test its effect on the routing.
+Implement this hook in Overview and test its effect on the routing.
 ```
 
 #### $canActivate
+```javascript
+//inside the component config
+$canActivate() {
+    return boolean || promise.
+}
+```
 This is a tough one.. It's obvious what it does, but it needs special treatment.
 $canActivate is declared in the component config and not inside a controller class.
 The component config is an object that doesn't provide the injector, which means
@@ -331,7 +403,6 @@ users from the RandomPersonService.
 
 ## TODO
 ```
-Create person component.
 Apply multi transclusion.
 Hooks
 Navigating in js with $router.

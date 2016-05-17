@@ -3,7 +3,7 @@ angular.module('myApp').directive('user', function () {
         restrict: 'E',
         templateUrl: './legacy/person.directive.html',
         scope: {
-            person: '='
+            user: '='
         },
         transclude: true,
         controller: function () {}

@@ -17,6 +17,7 @@ let AppConfig: ng.IComponentOptions = {
 export class TestCtrl {
     static $inject = ['$element', '$timeout'];
     homeCtrl: any;
+    modalTitle;
     constructor($element, $timeout) {
 
         // this.$onChanges = function(changes) {
@@ -42,7 +43,10 @@ angular.module('myApp', ['ngComponentRouter'])
     .component('app', AppConfig)
     .component('home', HomeConfig)
     .component('people', PeopleConfig);
-angular.module('myApp').component('test', {
+interface MyComponentOptions extends ng.IComponentOptions {
+    transclude: any;
+}
+angular.module('myApp').component('test', <MyComponentOptions>{
     bindings: {
         person: '<',
         test: '<'
@@ -50,7 +54,10 @@ angular.module('myApp').component('test', {
     require: {
         homeCtrl: '^home'
     },
-    template: `{{vm.person.name.first}}`,
+    transclude: {
+        left: 'buttonLeft'
+    },
+    template: `{{vm.person.name.first}} <div ng-transclude="left"></div>`,
     controllerAs: 'vm',
     controller: TestCtrl
 });
