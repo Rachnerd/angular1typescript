@@ -1,7 +1,7 @@
 angular.module('myApp').directive('user', function () {
     return {
         restrict: 'E',
-        templateUrl: './legacy/person.directive.html',
+        templateUrl: './legacy/user.directive.html',
         scope: {
             user: '='
         },

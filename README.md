@@ -20,10 +20,9 @@ gulp serve
 
 ## Content
 #### Legacy code
-This code is an example of old code that is still necessary to run the application.
-ES5 code needs some special treatment when combined with TypeScript + ES6.
-
-The legacy code used in this workshop is not intended to be migrated to Angular 1.5.5.
+The code available in ./src/legacy simulates functioning code that is not worth
+migrating to new standards. It works just fine and nobody is going to pay for that migration.
+This type of ES5 code does however need some special treatment when combined with TypeScript + ES6.
 
 ##### Angular 1.5.5 code (TS + ES6)
 The new code will be written Angular 2 style.
@@ -38,48 +37,42 @@ controllers     components
 function        classes and arrow functions () => {}
 var             let
 -               Types
-ngRoute         Angular 2 component router.     
+ngRoute         Angular 2 component router.
 ```
 
-Angular 1 used to be a mcv/mvvm framework. The last couple of releases of Angular
+Angular 1 used to be a mcv/mvvm framework. The last couple of updates for Angular
 provided the tools to create a component structured application (like Angular 2).
 
-## Assignment 1 Checking setup
+## Assignment 0 Checking setup
 #### App.ts
-The first thing an Angular 1 application needs is a module.
+The first thing an Angular 1 application needs is a module. This module will be placed
+in the root of our application. Since we're using the Angular 2 component router we
+have to declare a root component.
 ```javascript
 angular.module('myApp', ['ngComponentRouter'])
-```
-Just like in Angular 2, the component router needs a root component (component tree root).
-```javascript
 .value('$routerRootComponent', 'app')
 ```
+
 To create the actual root component app, TS + ES6 come into play.
 ```javascript
-let AppConfig: ng.IComponentOptions = {
+let AppComponentOptions: ng.IComponentOptions = {
     template: `<h4>Welcome to the new Angular 1</h4>`
 };
-.component('app', AppConfig);
+.component('app', AppComponentOptions);
 ```
-_Components expect an object as second parameter, not a function._
-
-Since the AppConfig is typed, only API attributes are allowed.
+Since AppComponentOptions is typed, only API attributes are allowed.
 
 #### TypeScript Declaration files.
-The type of AppConfig is stored in a so called declaration file (d.ts) in the
-typings directory. The goal of these files is to tell the TypeScript compiler
-about ES5 code.
-
-```
-Scroll through the angular.d.ts file in /typings
-```
-Inside the file a module is created and collapsed into a variable called 'ng'.
-This variable is directory accessible throughout the application if it is 
-referenced.
+The type of AppComponentOptions is stored in a so called declaration file (d.ts) in ./typings.
+These files act like a typed layer on top of the existing ES5 code so the TS compiler allows it to be called.
 ```
 Open App.ts and look at the references in comments on top.
+Scroll through the angular.d.ts file in /typings
 ```
-It is also possible to import certain types.
+
+The angular module is created and collapsed into a variable called 'ng'.
+This prefix is directly available without having to import it.
+
 ```javascript
 import IComponentOptions = angular.IComponentOptions;
 AppConfig:IComponentOptions
@@ -87,41 +80,47 @@ AppConfig:IComponentOptions
 ng.IComponentOptions
 ```
 
+I would advice you to use the ng. prefix because the imports stack up quite quickly.
+
 ```
 From now on try to add a type to every Angular feature you encounter.
 ```
 
 #### Special treatment ES5 code.
 The application module is declared in TypeScript which is loaded asynchronously
-by Systemjs. Legacy code doesn't get loaded by systemjs and is loaded synchronously.
-This causes a lot of errors because modules have to be instantiated (like in app.ts) before they
-can be used (like in legacy/random-user.service.js).
+by Systemjs. Like mentioned before, TypeScript only allows specific calls to the global scope
+which means that TypeScript doesn't control the initialization of the legacy ES5 code.
+
 ```
-Take a look in index.html to the systemjs implementation.
+Take a look in index.html at the systemjs implementation.
 ```
+
 This code makes sure that the angular module is imported before the legacy scripts are loaded.
 It imports the app file first and then appends script tags that reference legacy scripts to the document.
-After everything is loaded it adds ng-app to the body of the document and an app element to the DOM (which is defined in app.ts)
+After everything is loaded it adds ng-app to the body of the document which boots up Angular.
 
-## Assignment 2 Routing
+Now the legacy code gets loaded after the angular module they depend on became available.
+
+## Assignment 2 Modules and Routing
 #### PeopleComponent
 ```
-Import the PeopleConfig into app.ts and add it to the angular module as a component.
-Assign it the name: 'people'.
+In app.ts, import PeopleComponentOptions and add it to the angular module
+as a component called 'people'.
 ```
-Now we've added our first component (other than app) to the angular module.
+
+Now we've added our first component to the angular module (other than app).
 It can be accessed either by using it in a template like <people></people>
 or by setting up a route.
 
 ```javascript
 //path object example
 {
-    path: 'url', component: 'componentName', as: 'ComponentName'
+    path: 'url', component: 'component', as: 'Component'
 }
 ```
 
 ```
-Inside the AppConfig add a new property $routeConfig and set it with an 
+Inside AppComponentOptions add a new property $routeConfig and set it to an 
 array containing one path object for url: '/people'.
 ```
 It's important to know that the 'as' value is the name needed for redirecting.
@@ -131,66 +130,76 @@ defined.
 ```html
 <ng-outlet></ng-outlet>
 
-<a ng-link="['ComponentName']">ComponentName</a> <!-- !example values! -->
+<a ng-link="['Component']">Component</a> <!-- !example values! -->
 ```
+
 ```
 Append the template of app.ts with the router outlet.
 
 To be able to see the people route add a link to the people
 route above the outlet.
 ```
+
+Lastly you can implement a wildcard route that redirects to whatever route you want.
+```javascript
+{
+    path: '/**', redirectTo: ['People']
+}
+```
+
 #### Childroutes 
-The PeopleComponent will serve as a childrouter. This means that the app will reference
-PeopleComponent and that PeopleComponent will take care of its child components.
-This way not all routes will end up in app.ts but will be distributed where relevant.
+The PeopleComponent will be the first specific branch of the component tree and
+will be the root of all People related functionality. The PeopleComponent will 
+become a child router.
 
 ```
-Create a OverviewComponent in /people/overview and add it to the angular module in app.ts.
+Create a OverviewComponent in /people/overview and add it to the angular module in people.ts.
 
 Implement $routeConfig in PeopleComponent with a route to overview.
 
-Go to app.ts and tell the router PeopleComponent contains a routeconfig by adding 3 dots
-to the route: '/people/...'.
-
 Add ng-outlet to the PeopleComponent's template.
 
-Create a link above the ng-outlet to overview.
+Open app.ts and tell the root router that PeopleComponent contains a routeconfig by adding 3 dots
+to the route: '/people/...'.
+
+Create a link to overview next to the People link.
 ```
 
 You should be able to access: '/#/people/overview'.
 
 ## Assignment 3 Legacy code.
+The overview page will visualize a bunch of randomly generated [people](https://randomuser.me/).
+The service for retrieving these people is already written in ES5. Let's properly integrate that 
+service with our TS code.
+
 #### Fixing legacy code.
 In the new OverviewComponent we want to use the RandomPersonService (src/legacy/random-person.service.js) which
-retrieves random people with properties (see /typings/legacy/random-person.d.ts).
-
-The Angular 1 service is written in ES5 and doesn't fit with the new code.
-It's possible to neglect all benefits of TypeScript and inject the service directly
-but we're going to implement the better solution.
+retrieves random people with some properties (see /typings/legacy/random-person.d.ts).
 
 ```
-Open up legacy.d.ts in typings.
-The RandomPersonService interface should be filled in with the correct
-types of our legacy service (src/legacy/random-person.service.js).
+Open up ./typings/legacy/legacy.d.ts.
 
 Implement the correct types for RandomPersonService.
-First one is free.
+users  | array of people
+create | promise that returns a person
+delete | expects a person but returns nothing
 ```
+
 #### Importing legacy code.
 Now that the RandomUserService is typed we can implement it like any other TypeScript
 interface.
 ```
-In OverviewComponent inject RandomPersonService in the constructor and assign its type.
-Extend the static $inject array with a string: 'RandomPersonService'.
+In OverviewComponent, inject RandomPersonService in the constructor and assign its type.
+Add 'RandomPersonService' to the static $inject array.
 ```
-The static $inject array tells the Angular code which dependencies to inject.
+_The static $inject array tells the Angular injector which dependencies to inject.__
 
 ```
-Generate 10 people with the RandomUserService and set the response to 
-an people array of type Person.
+Generate 10 people with the RandomUserService and save the response to
+a people property in OverviewComponent (don't use 'function').
 
 Visualize the 10 people using ng-repeat in overview's template.
-In the legacy code there's a directive for a person, implement it like follows:
+In the legacy code there's a directive for a user, implement it like follows:
 ```
 
 ```html
