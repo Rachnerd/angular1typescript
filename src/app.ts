@@ -2,12 +2,8 @@
 /// <reference path="../typings/legacy/legacy.d.ts" />
 
 let AppComponentOptions: ng.IComponentOptions = {
-    templateUrl: 'app.html',
-    $routeConfig: [
-        {
-            path: '/', component: 'home', as: 'Home'
-        }
-    ]
+    templateUrl: './app.html',
+    $routeConfig: []
 };
 angular.module('myApp', ['ngComponentRouter'])
     .value('$routerRootComponent', 'app')
