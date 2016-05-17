@@ -295,16 +295,32 @@ transclude: {
 },
 ```
 
+```html
+<!--Person-->
+<div ng-transclude="left"></div>
+```
+```html
+<!--Overview-->
+<person>
+    <button-left>
+        <button>
+    </button-left>
+</person>
+```
+
 ```
 Bind 2 button placeholders called buttonLeft and buttonRight.
+
+Let person transclude a left and right button and implement them
+in overview (see example).
 ```
 
 #### Require
 When there's a scenario where a container component needs to keep track of
 its child elements, require is the solution.
 ```
-In overview add a function to the controller called: 'register(element: HTMLElement)'
-which logs the given parameter.
+In overview add a method to the component called: 'register(element: HTMLElement)'
+which logs its given parameter.
 In person component add require: { overviewCtrl: '^overview' }. 
 Call the overview register with $element[0] in $postLink.
 ```
@@ -410,11 +426,4 @@ RandomPersonService.users to the response.
 
 Now when the component gets activated it only has to retrieve the preloaded
 users from the RandomPersonService.
-```
-
-## TODO
-```
-Apply multi transclusion.
-Hooks
-Navigating in js with $router.
 ```
