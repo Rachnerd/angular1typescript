@@ -1,15 +1,8 @@
-class PeopleCtrl {
+class PeopleComponent {
     static $inject = [];
-    test =123;
-    constructor() {
-        
-    }
-    $onChanges(event) {
-        console.log(event);
-    }
+    constructor() {}
 }
 
-export let PeopleConfig: ng.IComponentOptions = {
-    template: `<h4>People Component</h4>{{$ctrl.test}}`,
-    controller: PeopleCtrl
+export let PeopleComponentOptions: ng.IComponentOptions = {
+    
 };

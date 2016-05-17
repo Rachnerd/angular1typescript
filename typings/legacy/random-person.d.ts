@@ -1,4 +1,5 @@
-declare module RandomPerson {
+declare module Legacy {
+
     interface Person {
         cell:string;
         dob: number;
@@ -37,4 +38,5 @@ declare module RandomPerson {
         medium:string;
         thumbnail:string;
     }
+
 }

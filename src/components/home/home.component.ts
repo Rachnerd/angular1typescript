@@ -1,9 +1,9 @@
-class HomeCtrl {
+class HomeComponent {
     static $inject = [];
     constructor() {}
 }
 
-export var HomeConfig = {
+export let HomeComponentOptions: ng.IComponentOptions = {
     templateUrl: `./components/home/home.component.html`,
-    controller: HomeCtrl
+    controller: HomeComponent
 };

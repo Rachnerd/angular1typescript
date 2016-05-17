@@ -16,6 +16,9 @@
     <!-- endinject -->
 </head>
 <body>
+    <!-- $routerRootComponent -->
+    <app></app>
+
 <script>
     /**
      * Fixes the import statements on run time by adding a js extension.
@@ -34,41 +37,29 @@
              */
             .then(function() {
                 /**
-                 *  Appends a script element to the DOM with an onload handler.
-                 */
-                function importScript(src, onload) {
-                    var script = document.createElement('script');
-                    script.onload = onload;
-                    script.src = src;
-                    document.head.appendChild(script);
-                }
-
-                /**
-                 * Amount of scripts that are loaded.
-                 */
-                var loadedScripts = 0;
-                /**
-                 *  When all scripts are loaded, boot the angular module.
-                 */
-                function onload () {
-                    if(++loadedScripts == scripts.length) {
-                        document.body.appendChild(document.createElement('app'));
-                        angular.bootstrap(document.body, ['myApp']);
-                    }
-                }
-
-                /**
                  * Array of legacy scripts
                  */
                 var scripts = [
                     'legacy/random-person.service.js',
                     'legacy/user.directive.js'
                 ];
+                loadScripts(scripts);
                 /**
                  * Import all legacy code.
                  */
-                for(var i = 0; i < scripts.length; i++) {
-                    importScript(scripts[i], onload);
+                function loadScripts(scripts) {
+                    var loadedScripts = 0;
+                    for(var i = 0; i < scripts.length; i++) {
+                        var script = document.createElement('script');
+                        script.onload = function () {
+                            if(++loadedScripts == scripts.length) {
+                                //All scripts are loaded
+                                angular.bootstrap(document.body, ['myApp']);
+                            }
+                        };
+                        script.src = scripts[i];
+                        document.head.appendChild(script);
+                    }
                 }
             });
 </script>

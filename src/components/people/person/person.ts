@@ -1,8 +1,7 @@
-class PersonCtrl {
+class PersonComponent {
     static $inject = [];
     constructor() {}
 }
-export var PersonConfig: ng.IComponentOptions = {
-    template: `Person`,
-    controller: PersonCtrl
+export var PersonComponentOptions: ng.IComponentOptions = {
+
 };
