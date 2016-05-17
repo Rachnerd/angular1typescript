@@ -153,7 +153,7 @@ will be the root of all People related functionality. The PeopleComponent will
 become a child router.
 
 ```
-Create a OverviewComponent in /people/overview and add it to the angular module in people.ts.
+Create a OverviewComponent in /people/overview and add it to the angular module.
 
 Implement $routeConfig in PeopleComponent with a route to overview.
 
@@ -216,10 +216,12 @@ By default Angular assigns the name $ctrl to components. This was decided as bes
 The user directive inside the legacy directory is loaded with outdated techniques like $scope.
 We want to create a component tree structure in our application so we'll create another component called person.
 ```
+Open ./src/component/people/person/person.ts
+
 Configure the person component so it binds (on-way bind '<') a person.
-Set controllerAs: 'vm' and copy the html of the user directive to the 
-person template. Refactor all user references to vm.person.
-Refactor overview so it renders person and not user.
+Set controllerAs: 'vm' and copy the html of the user directive (legacy)
+to the person template. Refactor all user references to vm.person.
+Refactor overview.html so it renders person and not user.
 ```
 
 ## Assignment 4 Component lifecycle hooks.
