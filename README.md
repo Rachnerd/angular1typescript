@@ -102,6 +102,13 @@ After everything is loaded it adds ng-app to the body of the document which boot
 Now the legacy code gets loaded after the angular module they depend on is instantiated.
 
 ## Assignment 1 Component + Routing
+```javascript
+// Angular 1.5
+module.component(name, options);
+// Angular 1.4
+module.directive(name, fn);
+```
+_[What's new in Angular?](https://medium.com/google-developer-experts/angular-new-features-in-angularjs-1-5-24f9b503af15#.5h7srxy30)_
 #### PeopleComponent
 ```
 In app.ts, import PeopleComponentOptions and add it to the angular module
@@ -275,6 +282,8 @@ Implement $postLink and log the html element of person.
 
 ## Assignment 4 Additional component config attributes.
 #### Multi transclusion
+_[Multi transclusion](https://medium.com/google-developer-experts/angular-new-features-in-angularjs-1-5-24f9b503af15#.5h7srxy30)_
+
 First thing to note is that the current typings file of Angular is a bit outdated.
 IComponentOptions only allows a boolean for transclude while the new api allows multi transclusion.
 
