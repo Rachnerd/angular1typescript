@@ -66,7 +66,7 @@ Since AppComponentOptions is typed, only API attributes are allowed.
 The type of AppComponentOptions is stored in a so called declaration file (d.ts) in ./typings.
 These files act like a typed layer on top of the existing ES5 code so the TS compiler allows it to be called.
 ```
-Open App.ts and look at the references in comments on top.
+Open app.ts and look at the references in comments on top.
 Scroll through the angular.d.ts file in /typings
 ```
 
@@ -99,9 +99,9 @@ This code makes sure that the angular module is imported before the legacy scrip
 It imports the app file first and then appends script tags that reference legacy scripts to the document.
 After everything is loaded it adds ng-app to the body of the document which boots up Angular.
 
-Now the legacy code gets loaded after the angular module they depend on became available.
+Now the legacy code gets loaded after the angular module they depend on is instantiated.
 
-## Assignment 2 Modules and Routing
+## Assignment 1 Component + Routing
 #### PeopleComponent
 ```
 In app.ts, import PeopleComponentOptions and add it to the angular module
@@ -112,6 +112,7 @@ Now we've added our first component to the angular module (other than app).
 It can be accessed either by using it in a template like <people></people>
 or by setting up a route.
 
+#### RootRouter
 ```javascript
 //path object example
 {
@@ -147,7 +148,7 @@ Lastly you can implement a wildcard route that redirects to whatever route you w
 }
 ```
 
-#### Childroutes 
+#### ChildRouter 
 The PeopleComponent will be the first specific branch of the component tree and
 will be the root of all People related functionality. The PeopleComponent will 
 become a child router.
@@ -167,7 +168,7 @@ Create a link to overview next to the People link.
 
 You should be able to access: '/#/people/overview'.
 
-## Assignment 3 Legacy code.
+## Assignment 2 Legacy code.
 The overview page will visualize a bunch of randomly generated [people](https://randomuser.me/).
 The service for retrieving these people is already written in ES5. Let's properly integrate that 
 service with our TS code.
@@ -180,13 +181,13 @@ retrieves random people with some properties (see /typings/legacy/random-person.
 Open up ./typings/legacy/legacy.d.ts.
 
 Implement the correct types for RandomPersonService.
-users  | array of people
+people  | array of people
 create | promise that returns a person
 delete | expects a person but returns nothing
 ```
 
 #### Importing legacy code.
-Now that the RandomUserService is typed we can implement it like any other TypeScript
+Now that the RandomPersonService is typed we can implement it like any other TypeScript
 interface.
 ```
 In OverviewComponent, inject RandomPersonService in the constructor and assign its type.
@@ -195,7 +196,7 @@ Add 'RandomPersonService' to the static $inject array.
 _The static $inject array tells the Angular injector which dependencies to inject.__
 
 ```
-Generate 10 people with the RandomUserService and save the response to
+Generate 10 people with the RandomPersonService and save the response to
 a people property in OverviewComponent (don't use 'function').
 
 Visualize the 10 people using ng-repeat in overview's template.
@@ -224,7 +225,7 @@ to the person template. Refactor all user references to vm.person.
 Refactor overview.html so it renders person and not user.
 ```
 
-## Assignment 4 Component lifecycle hooks.
+## Assignment 3 Component lifecycle hooks.
 Angular 1.5.5 provides Angular 2 lifecycle hooks to components.
 
 #### $onInit
@@ -272,7 +273,7 @@ Inject $element into the controller of the person component.
 Implement $postLink and log the html element of person.
 ```
 
-## Assignment 5 Additional component config attributes.
+## Assignment 4 Additional component config attributes.
 #### Multi transclusion
 First thing to note is that the current typings file of Angular is a bit outdated.
 IComponentOptions only allows a boolean for transclude while the new api allows multi transclusion.
@@ -337,7 +338,7 @@ To test navigation use it in the controller of overview and navigate to home.
 (Don't try to inject it, this.$router suffices).
 ```
 
-## Assignment 6 Component router lifecycle hooks.
+## Assignment 5 Component router lifecycle hooks.
 ```
 Setup a detail component in /people/detail/.
 Add it to the Angular module in app.ts.
@@ -422,8 +423,21 @@ method.
 Now the component gets activated after the people are generated. 
 ```
 Handle the success of the generate promise by setting the 
-RandomPersonService.users to the response.
+RandomPersonService.people to the response.
+```
 
 Now when the component gets activated it only has to retrieve the preloaded
-users from the RandomPersonService.
+people from the RandomPersonService.
+
+```
+Retrieve the preloaded people in OverviewComponent.
+```
+
+## Bonus
+```
+Implement a CRUD service that maintains the people.
+
+Perform DOM manipulation in a component using the best hook.
+
+Create components with activate and deactivate conditions.
 ```
