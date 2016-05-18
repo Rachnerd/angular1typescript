@@ -436,6 +436,7 @@ Retrieve the preloaded people in OverviewComponent.
 ## Bonus
 ```
 Implement a CRUD service that maintains the people.
+Let overview handle update and delete, use the 2 transcluded buttons.
 
 Perform DOM manipulation in a component using the best hook.
 
